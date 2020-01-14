@@ -1,15 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-const db = `pilots`;
-
 const router = express.Router();
 router.use(express.json())
-
-
+const db = `pilots`;
 
 mongoose.connect(`mongodb://localhost/${db}`, {useNewUrlParser:true, useUnifiedTopology:true})
-.then(console.log(`CONNECTED TO ${db}`))
+.then(console.log(`GENRES CONNECTED TO ${db}`))
 .catch(err => console.log(`An error occurred: ${err}`))
 
 // ******** Persisted in MongoDB ********
@@ -28,16 +25,15 @@ const pilotsSchema = new mongoose.Schema({
 const Pilot = mongoose.model('Pilot', pilotsSchema);
 
 
-
-
 router.get(`/`, async (req, res) => res.send( await Pilot.find().select({name:1, _id:1})));
 
 router.post(`/`,  async (req, res) => {
-    let genre = new Pilot({name: req.body.name})
-    genre = await genre.save()
+    let genre = new Pilot({name: req.body.name}) //Get info and store in object variable
 
-    res.send(genre)
-     
+    genre = await genre.save() //Save object variable to database
+    
+    // Return to user in GUI
+    res.send(genre)     
 })
 
 router.get(`/:id`, async (req, res)=>{
