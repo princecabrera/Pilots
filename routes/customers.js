@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
+const {Customer} = require('../models/customer')
 const router = express.Router();
 router.use(express.json())
 const db = `pilots`;
@@ -9,13 +10,6 @@ mongoose.connect(`mongodb://localhost/${db}`, {useNewUrlParser:true, useUnifiedT
 .then(console.log(`CUSTOMERS CONNECTED TO ${db}`))
 .catch(err => console.log(`Error, could not connect to Database ${db}, Error Detail: ${err}`))
 
-const customerSchema = new mongoose.Schema({
-    isGold: Boolean,
-    name: String,
-    phone: String
-})
-
-const Customer = mongoose.model('customer', customerSchema);
 
 
 router.get(`/`, async (req, res) => res.send(await Customer.find().select(['name', 'isGold', 'phone'])))
@@ -32,12 +26,10 @@ router.post(`/`, async (req, res) => {
 })
 
 router.get(`/:id`, async (req, res) => {
-        res.send(await Customer
-            .findById(req.params.id)
-            .select(['name', 'isGold', 'phone'])
-            )
-        }
-    )
+    res.send(await Customer
+        .findById(req.params.id)
+        .select(['name', 'isGold', 'phone']))
+})
 
 router.put(`/:id`, async (req, res) => {
     let customerInfo = {
@@ -50,7 +42,6 @@ router.put(`/:id`, async (req, res) => {
 
     res.send(updateCustomer)
 })
-
 
 router.delete(`/:id`, async (req, res) => {
     let customerToDelete = await Customer.findByIdAndDelete(req.params.id);

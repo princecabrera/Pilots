@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
+const {Pilot} = require('../models/genre')
 const router = express.Router();
 router.use(express.json())
 const db = `pilots`;
@@ -10,20 +11,6 @@ mongoose.connect(`mongodb://localhost/${db}`, {useNewUrlParser:true, useUnifiedT
 .catch(err => console.log(`An error occurred: ${err}`))
 
 // ******** Persisted in MongoDB ********
-
-// DB Schema Creation
-const pilotsSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-        minlength: 5,
-        maxlength: 50
-    }
-})
-
-// Setting Up Model for Schema
-const Pilot = mongoose.model('Pilot', pilotsSchema);
-
 
 router.get(`/`, async (req, res) => res.send( await Pilot.find().select({name:1, _id:1})));
 
