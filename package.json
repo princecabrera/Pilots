@@ -1,0 +1,18 @@
+{
+  "name": "pilots",
+  "version": "1.0.0",
+  "description": "This aplication will recommend a TV show and will start from the Pilot episode. Version 0.0.1 will make the starting point of the API",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Principe Cabrera",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "lodash": "^4.17.15",
+    "mongodb": "^3.4.1",
+    "mongoose": "^5.8.3"
+  }
+}
