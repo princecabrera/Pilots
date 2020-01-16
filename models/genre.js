@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 // DB Schema Creation
-const pilotsSchema = new mongoose.Schema({
+const genreSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -11,6 +11,6 @@ const pilotsSchema = new mongoose.Schema({
 })
 
 // Setting Up Model for Schema
-const Pilot = mongoose.model('Pilot', pilotsSchema);
+const Genre = mongoose.model('Genre', genreSchema);
 
-exports.Pilot = Pilot;
+module.exports = {Genre, genreSchema}
