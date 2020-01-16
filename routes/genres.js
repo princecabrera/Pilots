@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-const {Pilot} = require('../models/genre')
+const {Genre} = require('../models/genre')
 const router = express.Router();
 router.use(express.json())
 const db = `pilots`;
@@ -12,10 +12,10 @@ mongoose.connect(`mongodb://localhost/${db}`, {useNewUrlParser:true, useUnifiedT
 
 // ******** Persisted in MongoDB ********
 
-router.get(`/`, async (req, res) => res.send( await Pilot.find().select({name:1, _id:1})));
+router.get(`/`, async (req, res) => res.send( await Genre.find().select({name:1, _id:1})));
 
 router.post(`/`,  async (req, res) => {
-    let genre = new Pilot({name: req.body.name}) //Get info and store in object variable
+    let genre = new Genre({name: req.body.name}) //Get info and store in object variable
 
     genre = await genre.save() //Save object variable to database
     
@@ -24,21 +24,21 @@ router.post(`/`,  async (req, res) => {
 })
 
 router.get(`/:id`, async (req, res)=>{
-    let genre = await Pilot.findById({_id: req.params.id}).select({name:1, _id:1})
+    let genre = await Genre.findById({_id: req.params.id}).select({name:1, _id:1})
     if(!genre) return res.status(400).send(`OOPPSS! Genre with ID ${req.params.id} was not found!`)
 
     res.send(genre);
 })
 
 router.put(`/:id`, async (req, res)=>{
-    let genreToPut = await Pilot.findByIdAndUpdate(req.params.id,{name: req.body.name}, {new: true, useFindAndModify: false})
+    let genreToPut = await Genre.findByIdAndUpdate(req.params.id,{name: req.body.name}, {new: true, useFindAndModify: false})
 
     if(!genreToPut) return res.status(400).send(`OOPPSS! Genre with ID ${req.params.id} was not found!`)
 
     res.send(genreToPut);
 })
 router.delete(`/:id`, async (req, res) => {
-    let genreToDel = await Pilot.findByIdAndDelete({_id: req.params.id})
+    let genreToDel = await Genre.findByIdAndDelete({_id: req.params.id})
     if(!genreToDel) return res.status(400).send(`OOPPSS! Genre with ID ${req.params.id} was not found!`)
 
     res.send(genreToDel);
